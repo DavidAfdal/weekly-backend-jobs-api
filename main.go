@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"weekly/go/gin/config"
 	"weekly/go/gin/controllers"
 	"weekly/go/gin/repository"
@@ -26,5 +27,5 @@ func main() {
     
 	routes.JobRoutes(router, jobsController)
 
-	router.Run(":5000")
+	router.Run(":" + os.Getenv("PORT"))
 }
