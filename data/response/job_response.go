@@ -1,6 +1,8 @@
 package response
 
 import "time"
+
+
 type JobResponse struct {
 	Id           int    `json:"id" `
 	Title        string `json:"title"`
