@@ -4,27 +4,22 @@ import (
 	"fmt"
 	"weekly/go/gin/data/request"
 	"weekly/go/gin/data/response"
-	"weekly/go/gin/helper"
 	"weekly/go/gin/models"
 	"weekly/go/gin/repository"
-
-	"github.com/go-playground/validator/v10"
 )
 
 type JobsService struct {
 	JobRepo *repository.JobsRepository
-	Validate *validator.Validate
 }
 
 
-func NewJobsServiceImpl(repo *repository.JobsRepository, validate *validator.Validate) *JobsService {
-	return &JobsService{JobRepo: repo, Validate: validate}
+func NewJobsService(repo *repository.JobsRepository) *JobsService {
+	return &JobsService{JobRepo: repo}
 }
  
 
 func (s *JobsService) Create(job request.CreateJobInput) {
-     err := s.Validate.Struct(job)
-	 helper.ErrorPanic(err)
+
 	 jobModel := models.Job{
 		Title: job.Title,
 		Description: job.Description,

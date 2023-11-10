@@ -8,7 +8,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Routes(router *gin.Engine, jobController *controllers.JobsController, applierController *controllers.ApplierController) {
+func Router(router *gin.Engine, jobController *controllers.JobsController, applierController *controllers.ApplierController) {
     router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler) )
 	route := router.Group("/api")
 	

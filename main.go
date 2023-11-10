@@ -9,7 +9,6 @@ import (
 	"weekly/go/gin/services"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 )
 
 // @title           Gin Go Jobs Service
@@ -24,18 +23,18 @@ func main() {
 
 	router := gin.Default()
 
-	validate := validator.New()
+
     
 
-	jobRepo := repository.NewJobsRepositoryImpl(db)
-	jobServis := services.NewJobsServiceImpl(jobRepo, validate)
+	jobRepo := repository.NewJobsRepo(db)
+	jobServis := services.NewJobsService(jobRepo)
 	jobsController := controllers.NewJobsController(jobServis)
 
 	applierRepo := repository.NewApplierRepo(db)
-	applierServis := services.NewApplierServiceImpl(applierRepo, jobRepo)
+	applierServis := services.NewApplierService(applierRepo, jobRepo)
 	applierController := controllers.NewApplierController(applierServis)
     
-	routes.Routes(router, jobsController, applierController)
+	routes.Router(router, jobsController, applierController)
 
 	router.Run(":5000")
 }

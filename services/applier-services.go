@@ -13,7 +13,7 @@ type ApplierService struct {
 }
 
 
-func NewApplierServiceImpl(ApplierRepo *repository.ApllierRepo ,jobRepo *repository.JobsRepository) *ApplierService {
+func NewApplierService(ApplierRepo *repository.ApllierRepo ,jobRepo *repository.JobsRepository) *ApplierService {
 	return &ApplierService{ApplierRepo: ApplierRepo,JobRepo: jobRepo}
 }
 

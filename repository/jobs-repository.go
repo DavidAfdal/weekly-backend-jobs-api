@@ -14,7 +14,7 @@ type JobsRepository struct {
 }
 
 
-func NewJobsRepositoryImpl(Db *gorm.DB) *JobsRepository {
+func NewJobsRepo(Db *gorm.DB) *JobsRepository {
 	return &JobsRepository{Db: Db}
 }
 
