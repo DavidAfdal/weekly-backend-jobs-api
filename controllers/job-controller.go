@@ -33,7 +33,7 @@ func (controller *JobsController) GetJobs(ctx *gin.Context) {
   jobResponse := controller.jobService.FindAll()
 
   response := response.WebResponse{
-	 Message: "Berhasil Fetch List Data Jobs",
+	 Message: "Sucess Get All Data",
 	 Status: "OK",
 	 Data: jobResponse,
   }
@@ -68,7 +68,7 @@ func (controller *JobsController) GetJobById(ctx *gin.Context) {
 		return 
 	}
 	response := response.WebResponse{
-		Message: "Succes Ambil Data Dari Id",
+		Message: "Succes Get Data By Id",
 		Status: "Ok",
 		Data: jobResponse,
 	}
@@ -87,7 +87,7 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 
 
 	response := response.WebResponse{
-		Message: "Success ambil data job berdasarkan catregory " + jobCategory,
+		Message: "Success Get Data Job By " + jobCategory,
 		Status: "Ok",
 		Data: jobResponse,
 	}
@@ -105,7 +105,7 @@ func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 
 
 	response := response.WebResponse{
-		Message: "Success ambil data job berdasarkan userId",
+		Message: "Success Get Data Job By UserId",
 		Status: "Ok",
 		Data: jobResponse,
 	}
@@ -139,13 +139,13 @@ func (controller *JobsController) CreateJob(ctx *gin.Context) {
 	 controller.jobService.Create(JobRequest)
 
      webResponse := response.WebResponse{
-		Message: "Berhasil menambahkan data job",
-		Status: "Ok",
+		Message: "Succes add data job",
+		Status: "Created",
 		Data: nil,
 	 }
 
 	 ctx.Header("Content-Type", "application/json")
-	 ctx.JSON(http.StatusOK, webResponse)
+	 ctx.JSON(http.StatusCreated, webResponse)
 }
 
 func (controller *JobsController) UpdateJob(ctx *gin.Context) {
@@ -178,7 +178,7 @@ func (controller *JobsController) UpdateJob(ctx *gin.Context) {
 
 	webResponse:= response.WebResponse {
 		Status: "Ok",
-		Message: "Berhasil Update Job",
+		Message: "Success Update Data Job",
 		Data: nil,
 	}
 
@@ -203,7 +203,7 @@ func (controller *JobsController) DeleteJob(ctx *gin.Context) {
 
 	webResponse := response.WebResponse{
 		Status: "Ok",
-		Message: "Berhasil menghapus data Job",
+		Message: "Sucses Delete Data Job",
 		Data: nil,
 	}
 
