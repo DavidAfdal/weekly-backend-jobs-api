@@ -1,0 +1,96 @@
+basePath: /api
+definitions:
+  request.CreateJobInput:
+    properties:
+      category:
+        type: string
+      company:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+      location:
+        type: string
+      salary:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    required:
+    - category
+    - company
+    - description
+    - image
+    - location
+    - salary
+    - status
+    - title
+    type: object
+  response.WebResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:5000
+info:
+  contact:
+    name: David Afdal
+  description: A Jobs management service API in Go using Gin framework.
+  title: Gin Go Jobs Service
+  version: "1.0"
+paths:
+  /job:
+    get:
+      description: Return list of jobs.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Get All Jobs.
+      tags:
+      - Jobs
+    post:
+      description: Save job data in Db.
+      parameters:
+      - description: Create job
+        in: body
+        name: tags
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateJobInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Create job
+      tags:
+      - Jobs
+  /job/{jobId}:
+    get:
+      description: Return the job whoes jobId value matches id
+      parameters:
+      - description: get jobs by id
+        in: path
+        name: jobId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Get Single jobs by id.
+      tags:
+      - Jobs
+swagger: "2.0"

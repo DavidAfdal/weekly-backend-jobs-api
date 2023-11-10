@@ -14,16 +14,21 @@ import (
 
 
 type JobsController struct {
-	jobService services.JobsService
+	jobService *services.JobsService
 }
 
-func NewJobsController(service services.JobsService) *JobsController {
+func NewJobsController(service *services.JobsService) *JobsController {
 	return &JobsController{
 		jobService: service,
 	}
 }
 
-
+// FindAllJobs 		godoc
+// @Summary			Get All Jobs.
+// @Description		Return list of jobs.
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job [get]
 func (controller *JobsController) GetJobs(ctx *gin.Context) {
   jobResponse := controller.jobService.FindAll()
 
@@ -37,12 +42,31 @@ func (controller *JobsController) GetJobs(ctx *gin.Context) {
   ctx.JSON(http.StatusOK, response)
 }
 
+
+// FindJobsById		godoc
+// @Summary			Get Single jobs by id.
+// @Param			jobId path string true "get jobs by id"
+// @Description		Return the job whoes jobId value matches id
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/{jobId} [get]
 func (controller *JobsController) GetJobById(ctx *gin.Context) {
 	jobId :=  ctx.Param("jobId")
 	id, err := strconv.Atoi(jobId)
 	helper.ErrorPanic(err)
 
-	jobResponse := controller.jobService.FindById(id)
+	jobResponse, err := controller.jobService.FindById(id)
+
+	if err != nil {
+		fmt.Println(err)
+		errRepsonse := response.ErrorResponse{
+			Errors: err.Error(),
+			Status: "Not Found",
+		}
+		ctx.JSON(http.StatusNotFound, errRepsonse)
+		return 
+	}
 	response := response.WebResponse{
 		Message: "Succes Ambil Data Dari Id",
 		Status: "Ok",
@@ -61,6 +85,7 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 
 	jobResponse := controller.jobService.FindByCategory(jobCategory)
 
+
 	response := response.WebResponse{
 		Message: "Success ambil data job berdasarkan catregory " + jobCategory,
 		Status: "Ok",
@@ -71,11 +96,45 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
+	UserId :=  ctx.Param("userId")
+	
+	fmt.Println(UserId)
+
+	jobResponse := controller.jobService.FindByUserId(UserId)
+
+
+	response := response.WebResponse{
+		Message: "Success ambil data job berdasarkan catregory ",
+		Status: "Ok",
+		Data: jobResponse,
+	}
+
+	ctx.Header("Content-Type", "application/json")
+	ctx.JSON(http.StatusOK, response)
+}
+
+// CreateTags		godoc
+// @Summary			Create job
+// @Description		Save job data in Db.
+// @Param			tags body request.CreateJobInput true "Create job"
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job [post]
 func (controller *JobsController) CreateJob(ctx *gin.Context) {
      var JobRequest request.CreateJobInput
 
 	 err := ctx.ShouldBindJSON(&JobRequest)
-	 helper.ErrorPanic(err)
+
+	 if errBindResult := helper.BindErrorHandler(err); errBindResult != nil {
+		errorResponse := response.ErrorResponse{
+			Status: "Bad Request",
+			Errors: errBindResult,
+		}
+		ctx.JSON(http.StatusBadRequest, errorResponse)
+		return
+	}
 
 	 controller.jobService.Create(JobRequest)
 
@@ -89,23 +148,33 @@ func (controller *JobsController) CreateJob(ctx *gin.Context) {
 	 ctx.JSON(http.StatusOK, webResponse)
 }
 
-func (controller *JobsController) ApplyJob(ctx *gin.Context){
-
-}
-
 func (controller *JobsController) UpdateJob(ctx *gin.Context) {
-
 
 	updateJobRequest := request.UpdateJobInput{}
 	err := ctx.ShouldBindJSON(&updateJobRequest)
-	helper.ErrorPanic(err)
-	
+
+	if errBindResult := helper.BindErrorHandler(err); errBindResult != nil {
+		errorResponse := response.ErrorResponse{
+			Status: "Bad Request",
+			Errors: errBindResult,
+		}
+		ctx.JSON(http.StatusBadRequest, errorResponse)
+		return
+	}
+
     jobId := ctx.Param("jobId")
 	id, err := strconv.Atoi(jobId)
 	helper.ErrorPanic(err)
 	updateJobRequest.Id = id
 
-	controller.jobService.Update(updateJobRequest)
+	if err:= controller.jobService.Update(updateJobRequest); err != nil {
+		errorResponse := response.ErrorResponse{
+			Status: "Not Found",
+			Errors: err.Error(),
+		}
+		ctx.JSON(http.StatusNotFound, errorResponse)
+		return
+	}
 
 	webResponse:= response.WebResponse {
 		Status: "Ok",
@@ -123,7 +192,14 @@ func (controller *JobsController) DeleteJob(ctx *gin.Context) {
 	id, err := strconv.Atoi(jobId)
 	helper.ErrorPanic(err)
 
-	controller.jobService.Delete(id)
+	if err:= controller.jobService.Delete(id); err != nil {
+		errorResponse := response.ErrorResponse{
+			Status: "Not Found",
+			Errors: err.Error(),
+		}
+		ctx.JSON(http.StatusNotFound, errorResponse)
+		return
+	}
 
 	webResponse := response.WebResponse{
 		Status: "Ok",

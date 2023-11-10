@@ -2,84 +2,74 @@ package repository
 
 import (
 	"errors"
-	"weekly/go/gin/data/request"
+	"fmt"
 	"weekly/go/gin/helper"
 	"weekly/go/gin/models"
 
 	"gorm.io/gorm"
 )
 
-
-type JobsRepository interface {
-	Save(job models.Job)
-	FindAll() []models.Job
-	FindById(jobId int) (job models.Job, err error)
-	FindByCategory(category string) (jobs []models.Job, err error)
-	Update(job models.Job) 
-	Delete(jobId int)
-}
-
-
-type JobsRepositoryImpl struct {
+type JobsRepository struct {
 	Db *gorm.DB
 }
 
 
-func NewJobsRepositoryImpl(Db *gorm.DB) JobsRepository {
-	return &JobsRepositoryImpl{Db: Db}
+func NewJobsRepositoryImpl(Db *gorm.DB) *JobsRepository {
+	return &JobsRepository{Db: Db}
 }
 
-func (r *JobsRepositoryImpl) Save(job models.Job) {
+func (r *JobsRepository) Save(job models.Job) {
 	result := r.Db.Create(&job)
 	helper.ErrorPanic(result.Error)
 }
 
-func (r *JobsRepositoryImpl) FindAll() []models.Job {
+func (r *JobsRepository) FindAll() []models.Job {
 	var jobs []models.Job
 
 	result := r.Db.Find(&jobs)
 	helper.ErrorPanic(result.Error)
+	
 	return jobs
 }
 
-func (r *JobsRepositoryImpl) FindById(jobId int) (jobs models.Job, err error) {
+func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 	var job models.Job
 
-	result := r.Db.Find(&job, jobId)
+	result := r.Db.First(&job, jobId)
 	
-	if result != nil {
-       return job, nil
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return job, errors.New("Job Not Found")
 	} else {
-		return job, errors.New("tag is not found")
+		return job, nil
 	}
 }
 
-func (r *JobsRepositoryImpl) FindByCategory(category string) (job []models.Job, err error) {
+func (r *JobsRepository) FindByUserId(userId string) []models.Job {
+	var jobs []models.Job
+
+	result := r.Db.Where("user_id = ?", userId).Find(&jobs)
+	fmt.Println(result)
+	helper.ErrorPanic(result.Error)
+	
+	return jobs
+}
+
+func (r *JobsRepository) FindByCategory(category string) []models.Job {
 	var jobs []models.Job
 
 	result := r.Db.Where("category = ?", category).Find(&jobs)
 	helper.ErrorPanic(result.Error)
-	return jobs, err
+
+    return jobs
 }
 
 
-func (r *JobsRepositoryImpl) Update(job models.Job) {
-	var updateJob = request.UpdateJobInput{
-		Id: job.Id,
-		Title: job.Title,
-		Description: job.Description,
-		Company: job.Company,
-		ImageCompany: job.ImageCompany,
-		Category: job.Category,
-		Status: job.Status,
-		Salary: job.Salary,
-	}
-
-	result := r.Db.Model(&job).Updates(updateJob)
+func (r *JobsRepository) Update(job models.Job) {
+	result := r.Db.Model(&models.Job{}).Where("id = ?", job.Id).Updates(job)
 	helper.ErrorPanic(result.Error)
 }
 
-func (r *JobsRepositoryImpl) Delete(jobId int) {
+func (r *JobsRepository) Delete(jobId int) {
 	var job models.Job
 	result := r.Db.Where("id = ?", jobId).Delete(&job)
 	helper.ErrorPanic(result.Error)

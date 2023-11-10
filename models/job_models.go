@@ -1,16 +1,19 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Job struct {
-	Id           int    `json:"id" gorm:"type:int;primary_key"`
-	Title        string `json:"title"`
-	Description  string `json:"description"`
-	Company      string `json:"company"`
-	ImageCompany string `json:"image"`
-	Category     string `json:"category"`
-	Status       string `json:"status"`
-	Location     string `json:"location"`
-	Salary       int64  `json:"salary"`
-	CreatedAt    time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP()"`
+	Id           int    `gorm:"type:int;primaryKey"`
+	Title        string `gorm:"not null"`
+	Description  string `gorm:"not null"`
+	Company      string `gorm:"not null"`
+	ImageCompany string `gorm:"not null"`
+	Category     string `gorm:"not null"`
+	Status       string `gorm:"not null"`
+	Location     string `gorm:"not null"`
+	Salary       int64  `gorm:"not null"`
+	UserId       string `gorm:"not null"`
+	CreatedAt    time.Time
 }

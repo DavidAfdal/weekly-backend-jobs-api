@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"weekly/go/gin/data/request"
 	"weekly/go/gin/data/response"
 	"weekly/go/gin/helper"
@@ -10,26 +11,18 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type JobsServiceImpl struct {
-	JobRepo repository.JobsRepository
+type JobsService struct {
+	JobRepo *repository.JobsRepository
 	Validate *validator.Validate
 }
 
-type JobsService interface {
-	Create(job request.CreateJobInput)
-	FindAll() []response.JobResponse
-	FindById(id int) models.Job
-	FindByCategory(category string) []response.JobResponse
-	Update(job request.UpdateJobInput)
-	Delete(jobId int)
+
+func NewJobsServiceImpl(repo *repository.JobsRepository, validate *validator.Validate) *JobsService {
+	return &JobsService{JobRepo: repo, Validate: validate}
 }
+ 
 
-func NewJobsServiceImpl(repo repository.JobsRepository, validate *validator.Validate) JobsService {
-	return &JobsServiceImpl{JobRepo: repo, Validate: validate}
-}
-
-
-func (s *JobsServiceImpl) Create(job request.CreateJobInput) {
+func (s *JobsService) Create(job request.CreateJobInput) {
      err := s.Validate.Struct(job)
 	 helper.ErrorPanic(err)
 	 jobModel := models.Job{
@@ -41,16 +34,82 @@ func (s *JobsServiceImpl) Create(job request.CreateJobInput) {
 		Status: job.Status,
 		Location: job.Location,
 		Salary: job.Salary,
+		UserId: job.UserId,
 	 }
 
 	 s.JobRepo.Save(jobModel)
 }
 
-func (s *JobsServiceImpl) FindAll() []response.JobResponse {
+func (s *JobsService) FindAll() []response.JobResponse {
 
     result := s.JobRepo.FindAll()
-    
+	fmt.Println(result)
+
 	var jobs []response.JobResponse
+
+	if len(result) == 0 {
+		jobs = []response.JobResponse{}
+	} else {
+		for _, value := range result {
+			job := response.JobResponse{
+				Id: value.Id,
+				Title: value.Title,
+				Company: value.Company,
+				ImageCompany: value.ImageCompany,
+				Status: value.Status,
+				Category: value.Category,
+				CreatedAt: value.CreatedAt,
+			}
+			jobs = append(jobs, job)
+		}
+	}
+
+  
+	
+	return jobs
+}
+
+func (s *JobsService) FindById(id int) (models.Job, error) {
+	result, err := s.JobRepo.FindById(id)
+
+	return result, err
+}
+
+func (s *JobsService) FindByUserId(userId string) []response.JobResponse {
+
+    result := s.JobRepo.FindByUserId(userId)
+	fmt.Println(result)
+
+	var jobs []response.JobResponse
+	if len(result) == 0 {
+		jobs = []response.JobResponse{}
+	} else {
+		for _, value := range result {
+			job := response.JobResponse{
+				Id: value.Id,
+				Title: value.Title,
+				Company: value.Company,
+				ImageCompany: value.ImageCompany,
+				Status: value.Status,
+				Category: value.Category,
+				CreatedAt: value.CreatedAt,
+			}
+			jobs = append(jobs, job)
+		}
+	}
+	
+	
+	return jobs
+}
+
+
+func (s *JobsService) FindByCategory(category string) []response.JobResponse {
+
+    result := s.JobRepo.FindByCategory(category)
+	var jobs []response.JobResponse
+	if len(result) == 0 {
+		jobs = []response.JobResponse{}
+	} else{
 	for _, value := range result {
 		job := response.JobResponse{
 			Id: value.Id,
@@ -63,42 +122,17 @@ func (s *JobsServiceImpl) FindAll() []response.JobResponse {
 		}
 		jobs = append(jobs, job)
 	}
+}
 	
 	return jobs
 }
 
-func (s *JobsServiceImpl) FindById(id int) models.Job{
-	result, err:= s.JobRepo.FindById(id)
-	helper.ErrorPanic(err)
-	return result
-}
-
-func (s *JobsServiceImpl) FindByCategory(category string) []response.JobResponse {
-
-    result, err := s.JobRepo.FindByCategory(category)
-
-	helper.ErrorPanic(err)
-    
-	var jobs []response.JobResponse
-	for _, value := range result {
-		job := response.JobResponse{
-			Id: value.Id,
-			Title: value.Title,
-			Company: value.Company,
-			ImageCompany: value.ImageCompany,
-			Status: value.Status,
-			Category: value.Category,
-			CreatedAt: value.CreatedAt,
-		}
-		jobs = append(jobs, job)
-	}
-	
-	return jobs
-}
-
-func (s *JobsServiceImpl) Update(job request.UpdateJobInput) {
+func (s *JobsService) Update(job request.UpdateJobInput) error {
 	jobData, err := s.JobRepo.FindById(job.Id)
-	helper.ErrorPanic(err)
+	
+	if err != nil {
+		return err
+	}
 
 	jobData.Title = job.Title
 	jobData.Company = job.Company
@@ -111,8 +145,19 @@ func (s *JobsServiceImpl) Update(job request.UpdateJobInput) {
     
 
 	s.JobRepo.Update(jobData)
+
+	return nil
 }
 
-func (s *JobsServiceImpl) Delete(jobId int) {
+func (s *JobsService) Delete(jobId int) error {
+
+	_, err :=  s.JobRepo.FindById(jobId)
+
+	if err != nil {
+		return err
+	}
+
 	s.JobRepo.Delete(jobId)
+
+	return nil
 }
