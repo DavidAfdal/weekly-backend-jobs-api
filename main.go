@@ -23,9 +23,6 @@ func main() {
 
 	router := gin.Default()
 
-
-    
-
 	jobRepo := repository.NewJobsRepo(db)
 	jobServis := services.NewJobsService(jobRepo)
 	jobsController := controllers.NewJobsController(jobServis)

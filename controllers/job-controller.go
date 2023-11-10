@@ -105,7 +105,7 @@ func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 
 
 	response := response.WebResponse{
-		Message: "Success ambil data job berdasarkan catregory ",
+		Message: "Success ambil data job berdasarkan userId",
 		Status: "Ok",
 		Data: jobResponse,
 	}

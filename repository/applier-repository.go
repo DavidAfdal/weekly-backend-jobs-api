@@ -23,9 +23,6 @@ func (r *ApllierRepo) Save(applier models.Apllier){
 	helper.ErrorPanic(result.Error)
 }
 
-
-
-
 func (r *ApllierRepo) FindByUserId(userId string) (models.Apllier, error) {
 	var applier models.Apllier
 	result := r.DB.Where("user_id = ?", userId).Preload("Jobs").First(&applier)
