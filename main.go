@@ -20,21 +20,25 @@ import (
 // @BasePath  /api
 
 func main() {
+	router := gin.Default()
+	router.Use(middleware.CORS())
+
 	db := config.ConnectionDb()
 
-	router := gin.Default()
 
-	router.Use(middleware.CORSMiddleware())
-
+	
 	jobRepo := repository.NewJobsRepo(db)
 	jobServis := services.NewJobsService(jobRepo)
 	jobsController := controllers.NewJobsController(jobServis)
-
+	
 	applierRepo := repository.NewApplierRepo(db)
 	applierServis := services.NewApplierService(applierRepo, jobRepo)
 	applierController := controllers.NewApplierController(applierServis)
     
-	routes.Router(router, jobsController, applierController)
+
+   routes.Router(router, jobsController, applierController)
+
+	
 
 	router.Run(":5000")
 }

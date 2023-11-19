@@ -13,10 +13,6 @@ func ConnectionDb() *gorm.DB {
 
 	helper.ErrorPanic(err)
 
-	db.Migrator().DropTable("jobs")
-	db.Migrator().DropTable("aplliers")
-	db.Migrator().DropTable("applier_job")
-
 	db.AutoMigrate(&models.Job{})
 	db.AutoMigrate(&models.Apllier{})
 
