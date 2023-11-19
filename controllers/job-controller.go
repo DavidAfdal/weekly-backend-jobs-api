@@ -58,6 +58,8 @@ func (controller *JobsController) GetJobById(ctx *gin.Context) {
 
 	jobResponse, err := controller.jobService.FindById(id)
 
+
+
 	if err != nil {
 		fmt.Println(err)
 		errRepsonse := response.ErrorResponse{

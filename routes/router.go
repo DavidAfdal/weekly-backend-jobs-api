@@ -12,9 +12,6 @@ func Router(router *gin.Engine, jobController *controllers.JobsController, appli
 
 
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler) )
-
-	
-	
 	router.GET("/api/job", jobController.GetJobs)
 	router.GET("/api/job/:jobId", jobController.GetJobById)
 	router.GET("/api/job/created/:userId", jobController.GetJobByUserId)

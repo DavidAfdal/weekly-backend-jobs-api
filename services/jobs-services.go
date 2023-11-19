@@ -64,10 +64,31 @@ func (s *JobsService) FindAll() []response.JobResponse {
 	return jobs
 }
 
-func (s *JobsService) FindById(id int) (models.Job, error) {
+func (s *JobsService) FindById(id int) (response.JobResponse , error) {
 	result, err := s.JobRepo.FindById(id)
 
-	return result, err
+	job := response.JobResponse{
+		Id: result.Id,
+		Title: result.Title,
+		Description: result.Description,
+		Company: result.Company,
+		ImageCompany: result.ImageCompany,
+		Location: result.Location,
+		Salary: result.Salary,
+		UserId: result.UserId,
+		Status: result.Status,
+		Category: result.Category,
+		CreatedAt: result.CreatedAt,
+	}
+
+
+		return job, err
+	
+    
+
+
+
+	
 }
 
 func (s *JobsService) FindByUserId(userId string) []response.JobResponse {
