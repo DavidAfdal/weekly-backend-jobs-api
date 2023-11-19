@@ -4,6 +4,7 @@ import (
 	"weekly/go/gin/config"
 	"weekly/go/gin/controllers"
 	_ "weekly/go/gin/docs"
+	"weekly/go/gin/middleware"
 	"weekly/go/gin/repository"
 	"weekly/go/gin/routes"
 	"weekly/go/gin/services"
@@ -22,6 +23,8 @@ func main() {
 	db := config.ConnectionDb()
 
 	router := gin.Default()
+
+	router.Use(middleware.CORSMiddleware())
 
 	jobRepo := repository.NewJobsRepo(db)
 	jobServis := services.NewJobsService(jobRepo)

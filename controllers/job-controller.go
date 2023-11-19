@@ -97,6 +97,7 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 }
 
 func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
+
 	UserId :=  ctx.Param("userId")
 	
 	fmt.Println(UserId)
