@@ -5,15 +5,16 @@ import (
 )
 
 type Job struct {
-	Id           int    `gorm:"type:int;primaryKey"`
-	Title        string `gorm:"not null"`
-	Description  string `gorm:"not null"`
-	Company      string `gorm:"not null"`
-	ImageCompany string `gorm:"not null"`
-	Category     string `gorm:"not null"`
-	Status       string `gorm:"not null"`
-	Location     string `gorm:"not null"`
-	Salary       int64  `gorm:"not null"`
-	UserId       string `gorm:"not null"`
-	CreatedAt    time.Time
+	Id           int    `gorm:"type:int;primaryKey" json:"id" `
+	Title        string `json:"title"`
+	Description  string `json:"description,omitempty" `
+	Company      string `json:"company,omitempty"`
+	ImageCompany string `json:"image,omitempty"`
+	Category     string `json:"category,omitempty"`
+	Status       string `json:"status,omitempty"`
+	Location     string `json:"location,omitempty"`
+	Salary       int64  `json:"salary,omitempty"`
+	UserId         string `json:"userId,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+
 }
