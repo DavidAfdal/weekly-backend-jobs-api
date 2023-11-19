@@ -16,7 +16,7 @@ func Router(router *gin.Engine, jobController *controllers.JobsController, appli
 	router.GET("/api/job/:jobId", jobController.GetJobById)
 	router.GET("/api/job/created/:userId", jobController.GetJobByUserId)
 	router.GET("/api/job/jobfilter", jobController.GetJobByCategory)
-	router.GET("/api/job/applier", applierController.GetByUserId)
+	router.GET("/api/job/applier/:userId", applierController.GetByUserId)
 	router.POST("/api/job", jobController.CreateJob)
 	router.POST("api/apply", applierController.ApplyJob)
 	router.DELETE("/api/job/:jobId", jobController.DeleteJob)

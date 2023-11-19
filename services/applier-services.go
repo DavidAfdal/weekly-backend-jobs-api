@@ -32,7 +32,6 @@ func (s *ApplierService) ApplyJob(applier request.ApplierRequest) error {
    if _, err := s.ApplierRepo.FindByUserId(applier.UserId); err != nil {
 	  
 	  applierData := models.Apllier{
-		Name: applier.Name,
 		UserID: applier.UserId,
 		Jobs: []models.Job{jobData},
 	  }

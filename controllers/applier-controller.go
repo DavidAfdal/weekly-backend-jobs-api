@@ -64,7 +64,7 @@ func (controller *ApplierController) ApplyJob(ctx *gin.Context) {
 }
 
 func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
-	UserId :=  ctx.Query("userId")
+	UserId :=  ctx.Param("userId")
 
 	fmt.Println(UserId)
 	

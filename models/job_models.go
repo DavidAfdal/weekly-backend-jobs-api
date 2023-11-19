@@ -16,5 +16,4 @@ type Job struct {
 	Salary       int64  `json:"salary,omitempty"`
 	UserId         string `json:"userId,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
-
 }
