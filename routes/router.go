@@ -19,6 +19,7 @@ func Router(router *gin.Engine, jobController *controllers.JobsController, appli
 	router.GET("/api/job/applier/:userId", applierController.GetByUserId)
 	router.POST("/api/job", jobController.CreateJob)
 	router.POST("api/apply", applierController.ApplyJob)
+	router.POST("api/cancel", applierController.CancelApply)
 	router.DELETE("/api/job/:jobId", jobController.DeleteJob)
 	router.PATCH("/api/job/:jobId", jobController.UpdateJob)
 

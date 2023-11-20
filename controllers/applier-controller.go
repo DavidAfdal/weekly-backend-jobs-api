@@ -91,3 +91,34 @@ func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
 	ctx.Header("Content-Type", "application/json")
 	ctx.JSON(http.StatusOK, response)
 }
+
+func (controller *ApplierController) CancelApply(ctx *gin.Context) {
+
+	var ApplierRequest request.ApplierRequest
+
+	err := ctx.ShouldBindJSON(&ApplierRequest)
+	
+	
+
+	errCancelApply:= controller.ApplierService.CancelApply(ApplierRequest.UserId, ApplierRequest.JobId)
+
+	if errCancelApply != nil {
+		fmt.Println(err)
+		errRepsonse := response.ErrorResponse{
+			Errors: err.Error(),
+			Status: "Not Found",
+		}
+		ctx.JSON(http.StatusNotFound, errRepsonse)
+		return 
+	}
+
+
+	webResponse := response.WebResponse{
+		Message: "Berhasil Cancel Job",
+		Status: "Ok",
+		Data: nil,
+	 }
+
+	ctx.Header("Content-Type", "application/json")
+	ctx.JSON(http.StatusOK, webResponse)
+}

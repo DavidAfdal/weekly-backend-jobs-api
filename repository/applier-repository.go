@@ -25,7 +25,7 @@ func (r *ApllierRepo) Save(applier models.Apllier){
 
 func (r *ApllierRepo) FindByUserId(userId string) (models.Apllier, error) {
 	var applier models.Apllier
-	result := r.DB.Where("user_id = ?", userId).Preload("Jobs").First(&applier)
+	result := r.DB.Model(&models.Apllier{}).Where("user_id = ?", userId).Preload("Jobs").First(&applier)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return applier, errors.New("Applier Not Found")
@@ -37,6 +37,10 @@ func (r *ApllierRepo) FindByUserId(userId string) (models.Apllier, error) {
 
 func (r *ApllierRepo) AppendJob(job models.Job) {
 	r.DB.Model(&models.Apllier{}).Association("Jobs").Append(&job)
+}
+
+func (r *ApllierRepo) DeleteApply( job models.Job, applier models.Apllier) {
+	r.DB.Model(&applier).Association("Jobs").Delete(&job)
 }
 
 

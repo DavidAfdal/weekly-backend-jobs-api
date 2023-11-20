@@ -1,6 +1,8 @@
 package response
 
-import "time"
+import (
+	"time"
+)
 
 
 type JobResponse struct {
@@ -14,5 +16,7 @@ type JobResponse struct {
 	Location     string `json:"location,omitempty"`
 	Salary       int64  `json:"salary,omitempty"`
 	UserId         string `json:"userId,omitempty"`
+	Appliers      []string `json:"appliers,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
 }
+

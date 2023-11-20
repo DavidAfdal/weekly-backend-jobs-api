@@ -65,7 +65,13 @@ func (s *JobsService) FindAll() []response.JobResponse {
 }
 
 func (s *JobsService) FindById(id int) (response.JobResponse , error) {
+	
 	result, err := s.JobRepo.FindById(id)
+	appliers := make([]string, len(result.Aplliers))
+
+	for i, applier := range result.Aplliers {
+		appliers[i] = applier.UserID
+	}
 
 	job := response.JobResponse{
 		Id: result.Id,
@@ -79,6 +85,7 @@ func (s *JobsService) FindById(id int) (response.JobResponse , error) {
 		Status: result.Status,
 		Category: result.Category,
 		CreatedAt: result.CreatedAt,
+		Appliers : appliers,
 	}
 
 

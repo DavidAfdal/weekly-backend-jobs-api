@@ -48,3 +48,22 @@ func (s *ApplierService) FindByUserId(userId string) (models.Apllier, error) {
 	data, err := s.ApplierRepo.FindByUserId(userId)
     return data,err
 } 
+
+func (s *ApplierService) CancelApply(userId string, jobId int) error{
+   dataApplier, err := s.ApplierRepo.FindByUserId(userId)
+
+   if err != nil {
+	return err
+   }
+
+   dataJob, err := s.JobRepo.FindById(jobId)
+
+   if err != nil {
+	return err
+   }
+
+
+s.ApplierRepo.DeleteApply(dataJob, dataApplier)
+
+   return nil
+}
