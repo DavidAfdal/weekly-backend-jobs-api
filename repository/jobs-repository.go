@@ -2,7 +2,6 @@ package repository
 
 import (
 	"errors"
-	"fmt"
 	"weekly/go/gin/helper"
 	"weekly/go/gin/models"
 
@@ -47,9 +46,9 @@ func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 func (r *JobsRepository) FindByUserId(userId string) []models.Job {
 	var jobs []models.Job
 
-	result := r.Db.Where("user_id = ?", userId).First(&jobs)
-	fmt.Println(result)
-	helper.ErrorPanic(result.Error)
+	 r.Db.Where("user_id = ?", userId).First(&jobs)
+	
+	
 	
 	return jobs
 }
@@ -57,8 +56,8 @@ func (r *JobsRepository) FindByUserId(userId string) []models.Job {
 func (r *JobsRepository) FindByCategory(category string) []models.Job {
 	var jobs []models.Job
 
-	result := r.Db.Where("category = ?", category).Find(&jobs)
-	helper.ErrorPanic(result.Error)
+	 r.Db.Where("category = ?", category).Find(&jobs)
+
 
     return jobs
 }

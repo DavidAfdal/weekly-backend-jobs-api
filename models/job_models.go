@@ -15,7 +15,7 @@ type Job struct {
 	Location     string `json:"location,omitempty"`
 	Salary       int64  `json:"salary,omitempty"`
 	UserId        string `json:"userId,omitempty"`
-	Aplliers      []Apllier  `gorm:"many2many:applier_job;" json:"-"`
+	Aplliers      []Apllier  `gorm:"many2many:applier_job;constraint:OnDelete:CASCADE;" json:"-" `
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
 
 }
