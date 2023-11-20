@@ -35,9 +35,7 @@ func (r *JobsRepository) FindAll() []models.Job {
 func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 	var job models.Job
 
-	result := r.Db.Model(&models.Job{}).Where("id = ?", jobId).Preload("Aplliers", func(db *gorm.DB) *gorm.DB {
-		return db.Select("QuestionBodyId", "Value")
-	  }).First(&job)
+	result := r.Db.Model(&models.Job{}).Where("id = ?", jobId).Preload("Aplliers").First(&job)
 	
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return job, errors.New("Job Not Found")
