@@ -6,6 +6,7 @@ import (
 	"weekly/go/gin/data/request"
 	"weekly/go/gin/data/response"
 	"weekly/go/gin/helper"
+	"weekly/go/gin/models"
 	"weekly/go/gin/services"
 
 	"github.com/gin-gonic/gin"
@@ -73,11 +74,12 @@ func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		errRepsonse := response.ErrorResponse{
-			Errors: err.Error(),
-			Status: "Not Found",
+		Repsonse := response.WebResponse{
+			Message: "Success ambil data job berdasarkan user Id ",
+		Status: "Ok",
+		Data: models.Apllier{},
 		}
-		ctx.JSON(http.StatusNotFound, errRepsonse)
+		ctx.JSON(http.StatusOK, Repsonse)
 		return 
 	}
 
