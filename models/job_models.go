@@ -17,5 +17,4 @@ type Job struct {
 	UserId        string `json:"userId,omitempty"`
 	Aplliers      []Apllier  `gorm:"many2many:applier_job;constraint:OnDelete:CASCADE;" json:"appliers" `
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
-
 }
