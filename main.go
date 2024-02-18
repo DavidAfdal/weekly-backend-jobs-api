@@ -38,5 +38,5 @@ func main() {
 
    routes.Router(router, jobsController, applierController)
 
-	router.Run(":3000")
+	router.Run("0.0.0.0" + "3000")
 }
