@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"weekly/go/gin/config"
 	"weekly/go/gin/controllers"
 	_ "weekly/go/gin/docs"
@@ -25,7 +26,7 @@ func main() {
 
 	db := config.ConnectionDb()
 
-
+    port :=  envPortOr("3000")
 	
 	jobRepo := repository.NewJobsRepo(db)
 	jobServis := services.NewJobsService(jobRepo)
@@ -38,5 +39,15 @@ func main() {
 
    routes.Router(router, jobsController, applierController)
 
-	router.Run("0.0.0.0" + "7462")
+	router.Run(port)
 }
+
+
+func envPortOr(port string) string {
+	// If `PORT` variable in environment exists, return it
+	if envPort := os.Getenv("PORT"); envPort != "" {
+	  return ":" + envPort
+	}
+	// Otherwise, return the value of `port` variable from function argument
+	return ":" + port
+  }
