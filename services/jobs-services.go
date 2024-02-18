@@ -87,13 +87,7 @@ func (s *JobsService) FindById(id int) (response.JobResponse , error) {
 		CreatedAt: result.CreatedAt,
 		Appliers : appliers,
 	}
-
-
 		return job, err
-	
-    
-
-
 
 	
 }

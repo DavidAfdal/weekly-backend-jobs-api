@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"log"
 	"weekly/go/gin/helper"
 	"weekly/go/gin/models"
 
@@ -25,22 +26,31 @@ func (r *ApllierRepo) Save(applier models.Apllier){
 
 func (r *ApllierRepo) FindByUserId(userId string) (models.Apllier, error) {
 	var applier models.Apllier
-	result := r.DB.Model(&models.Apllier{}).Where("user_id = ?", userId).Preload("Jobs").First(&applier)
+	result := r.DB.Where("user_id = ?", userId).Preload("Jobs").First(&applier)
+	log.Print(applier.Jobs)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return applier, errors.New("Applier Not Found")
+	   return applier, errors.New("applier not found")
 	} else {
 		return applier, nil
 	}
 
 }
 
-func (r *ApllierRepo) AppendJob(job models.Job) {
-	r.DB.Model(&models.Apllier{}).Association("Jobs").Append(&job)
+func (r *ApllierRepo) AppendJob(appliant models.Apllier, job models.Job) {
+	r.DB.Model(&appliant).Association("Jobs").Append(&job)
 }
 
 func (r *ApllierRepo) DeleteApply( job models.Job, applier models.Apllier) {
-	r.DB.Model(&applier).Association("Jobs").Delete(&job)
+	r.DB.Transaction(func(tx *gorm.DB) error {
+
+
+		tx.Model(&applier).Association("Jobs").Delete(&job)
+		if(len(applier.Jobs) == 0) {
+			tx.Delete(&applier)
+		}
+		return nil
+	})
 }
 
 

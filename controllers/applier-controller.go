@@ -6,7 +6,6 @@ import (
 	"weekly/go/gin/data/request"
 	"weekly/go/gin/data/response"
 	"weekly/go/gin/helper"
-	"weekly/go/gin/models"
 	"weekly/go/gin/services"
 
 	"github.com/gin-gonic/gin"
@@ -49,7 +48,7 @@ func (controller *ApplierController) ApplyJob(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusBadRequest, errRepsonse)
 	return 
-}
+	}
 
    webResponse := response.WebResponse{
 	Message: "Berhasil Apply Job",
@@ -70,18 +69,8 @@ func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
 	fmt.Println(UserId)
 	
 
-	jobResponse, err:= controller.ApplierService.FindByUserId(UserId)
+	jobResponse:= controller.ApplierService.FindByUserId(UserId)
 
-	if err != nil {
-		fmt.Println(err)
-		Repsonse := response.WebResponse{
-			Message: "Success ambil data job berdasarkan user Id ",
-		Status: "Ok",
-		Data: models.Apllier{},
-		}
-		ctx.JSON(http.StatusOK, Repsonse)
-		return 
-	}
 
 
 	response := response.WebResponse{

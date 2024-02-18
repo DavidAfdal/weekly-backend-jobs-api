@@ -96,9 +96,9 @@
                 "description",
                 "image",
                 "location",
-                "salary",
                 "status",
-                "title"
+                "title",
+                "userId"
             ],
             "properties": {
                 "category": {
@@ -123,6 +123,9 @@
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }

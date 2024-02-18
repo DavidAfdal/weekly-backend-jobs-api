@@ -37,7 +37,7 @@ func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 	result := r.Db.Model(&models.Job{}).Where("id = ?", jobId).Preload("Aplliers").First(&job)
 	
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return job, errors.New("Job Not Found")
+		return job, errors.New("job not found")
 	} else {
 		return job, nil
 	}

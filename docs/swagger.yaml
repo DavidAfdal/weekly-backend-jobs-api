@@ -18,15 +18,17 @@ definitions:
         type: string
       title:
         type: string
+      userId:
+        type: string
     required:
     - category
     - company
     - description
     - image
     - location
-    - salary
     - status
     - title
+    - userId
     type: object
   response.WebResponse:
     properties:

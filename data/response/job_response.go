@@ -15,8 +15,8 @@ type JobResponse struct {
 	Status       string `json:"status,omitempty"`
 	Location     string `json:"location,omitempty"`
 	Salary       int64  `json:"salary,omitempty"`
-	UserId         string `json:"userId,omitempty"`
-	Appliers      []string `json:"appliers,omitempty"`
+	UserId       string `json:"userId,omitempty"`
+	Appliers     interface{} `json:"appliers,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
 }
 

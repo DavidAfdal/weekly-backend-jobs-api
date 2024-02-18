@@ -102,9 +102,9 @@ const docTemplate = `{
                 "description",
                 "image",
                 "location",
-                "salary",
                 "status",
-                "title"
+                "title",
+                "userId"
             ],
             "properties": {
                 "category": {
@@ -129,6 +129,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }
