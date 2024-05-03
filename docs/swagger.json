@@ -39,7 +39,7 @@
                 "parameters": [
                     {
                         "description": "Create job",
-                        "name": "tags",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -131,7 +131,7 @@
                     },
                     {
                         "description": "Update job",
-                        "name": "tags",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {

@@ -45,7 +45,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Create job",
-                        "name": "tags",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -137,7 +137,7 @@ const docTemplate = `{
                     },
                     {
                         "description": "Update job",
-                        "name": "tags",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {

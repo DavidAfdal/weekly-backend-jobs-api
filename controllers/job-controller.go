@@ -129,7 +129,7 @@ func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 // CreateTags		godoc
 // @Summary			Create job
 // @Description		Save job data in Db.
-// @Param			tags body request.CreateJobInput true "Create job"
+// @Param			input body request.CreateJobInput true "Create job"
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
@@ -165,7 +165,7 @@ func (controller *JobsController) CreateJob(ctx *gin.Context) {
 // @Summary			Update job
 // @Description		Update job data in Db.
 // @Param			jobId path string true "Update Job By Job ID"
-// @Param			tags body request.UpdateJobInput true "Update job"
+// @Param			input body request.UpdateJobInput true "Update job"
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}

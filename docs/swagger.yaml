@@ -93,7 +93,7 @@ paths:
       parameters:
       - description: Create job
         in: body
-        name: tags
+        name: input
         required: true
         schema:
           $ref: '#/definitions/request.CreateJobInput'
@@ -154,7 +154,7 @@ paths:
         type: string
       - description: Update job
         in: body
-        name: tags
+        name: input
         required: true
         schema:
           $ref: '#/definitions/request.UpdateJobInput'
