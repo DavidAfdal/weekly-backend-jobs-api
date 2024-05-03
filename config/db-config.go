@@ -1,20 +1,19 @@
 package config
 
 import (
+	"fmt"
+	"os"
 	"weekly/go/gin/helper"
 	"weekly/go/gin/models"
 
-	"github.com/xo/dburl"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func ConnectionDb() *gorm.DB {
-	u, err := dburl.Parse("mysql://root:cfa2bCcBbgbeh311GHBCG46hdgCbCgg4@roundhouse.proxy.rlwy.net:44435/railway" + "?charset=utf8&parseTime=True&loc=Local")
-    if err != nil {
-		helper.ErrorPanic(err)
-    }
-	db, err := gorm.Open(mysql.Open(u.DSN), &gorm.Config{})
+    db_url := os.Getenv("DB_URL")
+	db, err := gorm.Open(postgres.Open(db_url), &gorm.Config{})
+	fmt.Println(os.Getenv("PGHOST"))
 
 	helper.ErrorPanic(err)
 

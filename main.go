@@ -10,6 +10,8 @@ import (
 	"weekly/go/gin/routes"
 	"weekly/go/gin/services"
 
+	dotenv "github.com/joho/godotenv"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,10 +19,11 @@ import (
 // @version         1.0
 // @description     A Jobs management service API in Go using Gin framework.
 // @contact.name   David Afdal
-// @host      localhost:5000
+// @host      localhost:7426
 // @BasePath  /api
 
 func main() {
+	dotenv.Load(".env")
 	router := gin.Default()
 	router.Use(middleware.CORS())
 

@@ -98,6 +98,15 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+
+// FindJobsById		godoc
+// @Summary			Get Shared jobs by userId.
+// @Param			userId path string true "get shared jobs by userId"
+// @Description		Return the job whoes jobId value matches id
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/{userId} [get]
 func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 
 	UserId :=  ctx.Param("userId")
@@ -151,6 +160,16 @@ func (controller *JobsController) CreateJob(ctx *gin.Context) {
 	 ctx.JSON(http.StatusCreated, webResponse)
 }
 
+
+// CreateTags		godoc
+// @Summary			Update job
+// @Description		Update job data in Db.
+// @Param			jobId path string true "Update Job By Job ID"
+// @Param			tags body request.UpdateJobInput true "Update job"
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/{jobId} [patch]
 func (controller *JobsController) UpdateJob(ctx *gin.Context) {
 
 	updateJobRequest := request.UpdateJobInput{}
@@ -190,6 +209,14 @@ func (controller *JobsController) UpdateJob(ctx *gin.Context) {
 
 }
 
+// CreateTags		godoc
+// @Summary			Delete job
+// @Description		Delete job data in Db.
+// @Param			jobId path string true "Delete Job By Job ID"
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/{jobId} [delete]
 func (controller *JobsController) DeleteJob(ctx *gin.Context) {
 	jobId := ctx.Param("jobId")
 	id, err := strconv.Atoi(jobId)
