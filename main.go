@@ -19,7 +19,7 @@ import (
 // @version         1.0
 // @description     A Jobs management service API in Go using Gin framework.
 // @contact.name   David Afdal
-// @host      localhost:7426
+// @host       103.157.26.181:7426
 // @BasePath  /api
 
 func main() {

@@ -21,7 +21,14 @@ func NewApplierController(ApplierService *services.ApplierService) *ApplierContr
 	}
 }
 
-
+// ApplyJob		    godoc
+// @Summary			Apply job
+// @Description		Api endpoint to apply job.
+// @Param			input body request.ApplierRequest true "data input"
+// @Produce			application/json
+// @Tags			Applicants
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/apply [post]
 func (controller *ApplierController) ApplyJob(ctx *gin.Context) {
 	var ApplierRequest request.ApplierRequest
 
@@ -63,6 +70,14 @@ func (controller *ApplierController) ApplyJob(ctx *gin.Context) {
 
 }
 
+// GetAppliedJobs	godoc
+// @Summary			Get Applied Jobs
+// @Description		Api endpoint to get applied job by userId.
+// @Param			userId path string true "param enpoint"
+// @Produce			application/json
+// @Tags			Jobs
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/applier/{userId} [get]
 func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
 	UserId :=  ctx.Param("userId")
 
@@ -83,6 +98,14 @@ func (controller *ApplierController) GetByUserId(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// CancleApply		godoc
+// @Summary			Cancel Apply job
+// @Description		Api Enpoint to cancel apply job.
+// @Param			input body request.ApplierRequest true "data input"
+// @Produce			application/json
+// @Tags			Applicants
+// @Success			200 {object} response.WebResponse{}
+// @Router			/job/cancel [post]
 func (controller *ApplierController) CancelApply(ctx *gin.Context) {
 
 	var ApplierRequest request.ApplierRequest

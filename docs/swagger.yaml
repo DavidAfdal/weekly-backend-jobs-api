@@ -1,5 +1,15 @@
 basePath: /api
 definitions:
+  request.ApplierRequest:
+    properties:
+      job_id:
+        type: integer
+      user_id:
+        type: string
+    required:
+    - job_id
+    - user_id
+    type: object
   request.CreateJobInput:
     properties:
       category:
@@ -39,8 +49,6 @@ definitions:
         type: string
       description:
         type: string
-      id:
-        type: integer
       image:
         type: string
       location:
@@ -69,7 +77,7 @@ definitions:
       status:
         type: string
     type: object
-host: localhost:7426
+host: 103.157.26.181:7426
 info:
   contact:
     name: David Afdal
@@ -79,7 +87,7 @@ info:
 paths:
   /job:
     get:
-      description: Return list of jobs.
+      description: Api Enpoint to Get All Data Jobs
       responses:
         "200":
           description: OK
@@ -89,9 +97,9 @@ paths:
       tags:
       - Jobs
     post:
-      description: Save job data in Db.
+      description: Api Endpoint To Create New Job.
       parameters:
-      - description: Create job
+      - description: Data Input
         in: body
         name: input
         required: true
@@ -104,18 +112,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.WebResponse'
-      summary: Create job
+      summary: Create New Job
       tags:
       - Jobs
   /job/{jobId}:
     delete:
-      description: Delete job data in Db.
+      description: Api Endpoint for Delete job.
       parameters:
-      - description: Delete Job By Job ID
+      - description: param endpoint
         in: path
         name: jobId
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -127,13 +135,13 @@ paths:
       tags:
       - Jobs
     get:
-      description: Return the job whoes jobId value matches id
+      description: Api Enpoint to Get Single Job By Id
       parameters:
-      - description: get jobs by id
+      - description: Param Endpoint
         in: path
         name: jobId
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -141,18 +149,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.WebResponse'
-      summary: Get Single jobs by id.
+      summary: Get Single Job By Id.
       tags:
       - Jobs
     patch:
-      description: Update job data in Db.
+      description: Api Endpoint To Update Job
       parameters:
-      - description: Update Job By Job ID
+      - description: Param Enpoint
         in: path
         name: jobId
         required: true
-        type: string
-      - description: Update job
+        type: integer
+      - description: Data Input
         in: body
         name: input
         required: true
@@ -165,14 +173,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.WebResponse'
-      summary: Update job
+      summary: Update Job
       tags:
       - Jobs
   /job/{userId}:
     get:
-      description: Return the job whoes jobId value matches id
+      description: Api Endpoint To Get Shared Jobs.
       parameters:
-      - description: get shared jobs by userId
+      - description: Param Endpoint
         in: path
         name: userId
         required: true
@@ -187,4 +195,63 @@ paths:
       summary: Get Shared jobs by userId.
       tags:
       - Jobs
+  /job/applier/{userId}:
+    get:
+      description: Api endpoint to get applied job by userId.
+      parameters:
+      - description: param enpoint
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Get Applied Jobs
+      tags:
+      - Jobs
+  /job/apply:
+    post:
+      description: Api endpoint to apply job.
+      parameters:
+      - description: data input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.ApplierRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Apply job
+      tags:
+      - Applicants
+  /job/cancel:
+    post:
+      description: Api Enpoint to cancel apply job.
+      parameters:
+      - description: data input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.ApplierRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Cancel Apply job
+      tags:
+      - Applicants
 swagger: "2.0"

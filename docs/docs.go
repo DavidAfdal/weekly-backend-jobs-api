@@ -19,7 +19,7 @@ const docTemplate = `{
     "paths": {
         "/job": {
             "get": {
-                "description": "Return list of jobs.",
+                "description": "Api Enpoint to Get All Data Jobs",
                 "tags": [
                     "Jobs"
                 ],
@@ -34,17 +34,17 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Save job data in Db.",
+                "description": "Api Endpoint To Create New Job.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Jobs"
                 ],
-                "summary": "Create job",
+                "summary": "Create New Job",
                 "parameters": [
                     {
-                        "description": "Create job",
+                        "description": "Data Input",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -63,20 +63,111 @@ const docTemplate = `{
                 }
             }
         },
-        "/job/{jobId}": {
+        "/job/applier/{userId}": {
             "get": {
-                "description": "Return the job whoes jobId value matches id",
+                "description": "Api endpoint to get applied job by userId.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Jobs"
                 ],
-                "summary": "Get Single jobs by id.",
+                "summary": "Get Applied Jobs",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "get jobs by id",
+                        "description": "param enpoint",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/job/apply": {
+            "post": {
+                "description": "Api endpoint to apply job.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Applicants"
+                ],
+                "summary": "Apply job",
+                "parameters": [
+                    {
+                        "description": "data input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ApplierRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/job/cancel": {
+            "post": {
+                "description": "Api Enpoint to cancel apply job.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Applicants"
+                ],
+                "summary": "Cancel Apply job",
+                "parameters": [
+                    {
+                        "description": "data input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ApplierRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/job/{jobId}": {
+            "get": {
+                "description": "Api Enpoint to Get Single Job By Id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get Single Job By Id.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Param Endpoint",
                         "name": "jobId",
                         "in": "path",
                         "required": true
@@ -92,7 +183,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete job data in Db.",
+                "description": "Api Endpoint for Delete job.",
                 "produces": [
                     "application/json"
                 ],
@@ -102,8 +193,8 @@ const docTemplate = `{
                 "summary": "Delete job",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Delete Job By Job ID",
+                        "type": "integer",
+                        "description": "param endpoint",
                         "name": "jobId",
                         "in": "path",
                         "required": true
@@ -119,24 +210,24 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update job data in Db.",
+                "description": "Api Endpoint To Update Job",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Jobs"
                 ],
-                "summary": "Update job",
+                "summary": "Update Job",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Update Job By Job ID",
+                        "type": "integer",
+                        "description": "Param Enpoint",
                         "name": "jobId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Update job",
+                        "description": "Data Input",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -157,7 +248,7 @@ const docTemplate = `{
         },
         "/job/{userId}": {
             "get": {
-                "description": "Return the job whoes jobId value matches id",
+                "description": "Api Endpoint To Get Shared Jobs.",
                 "produces": [
                     "application/json"
                 ],
@@ -168,7 +259,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "get shared jobs by userId",
+                        "description": "Param Endpoint",
                         "name": "userId",
                         "in": "path",
                         "required": true
@@ -186,6 +277,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.ApplierRequest": {
+            "type": "object",
+            "required": [
+                "job_id",
+                "user_id"
+            ],
+            "properties": {
+                "job_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "request.CreateJobInput": {
             "type": "object",
             "required": [
@@ -251,9 +357,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "image": {
                     "type": "string"
                 },
@@ -289,7 +392,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:7426",
+	Host:             "103.157.26.181:7426",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Gin Go Jobs Service",

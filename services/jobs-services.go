@@ -144,8 +144,8 @@ func (s *JobsService) FindByCategory(category string) []response.JobResponse {
 	return jobs
 }
 
-func (s *JobsService) Update(job request.UpdateJobInput) error {
-	jobData, err := s.JobRepo.FindById(job.Id)
+func (s *JobsService) Update(job request.UpdateJobInput, id int) error {
+	jobData, err := s.JobRepo.FindById(id)
 	
 	if err != nil {
 		return err

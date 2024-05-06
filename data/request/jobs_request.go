@@ -13,7 +13,6 @@ type CreateJobInput struct {
 }
 
 type UpdateJobInput struct {
-	Id           int    `json:"id"`
 	Title        string `json:"title" binding:"required"`
 	Description  string `json:"description,omitempty" binding:"required"`
 	Company      string `json:"company,omitempty" binding:"required"`

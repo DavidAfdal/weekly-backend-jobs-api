@@ -23,9 +23,9 @@ func NewJobsController(service *services.JobsService) *JobsController {
 	}
 }
 
-// FindAllJobs 		godoc
-// @Summary			Get All Jobs.
-// @Description		Return list of jobs.
+// GetJobs			godoc
+// @Summary		    Get All Jobs.
+// @Description		Api Enpoint to Get All Data Jobs
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
 // @Router			/job [get]
@@ -43,10 +43,10 @@ func (controller *JobsController) GetJobs(ctx *gin.Context) {
 }
 
 
-// FindJobsById		godoc
-// @Summary			Get Single jobs by id.
-// @Param			jobId path string true "get jobs by id"
-// @Description		Return the job whoes jobId value matches id
+// GetJobById		godoc
+// @Summary			Get Single Job By Id.
+// @Param			jobId path int true "Param Endpoint"
+// @Description		Api Enpoint to Get Single Job By Id
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
@@ -99,10 +99,10 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 }
 
 
-// FindJobsById		godoc
+// GetSharedJobs	godoc
 // @Summary			Get Shared jobs by userId.
-// @Param			userId path string true "get shared jobs by userId"
-// @Description		Return the job whoes jobId value matches id
+// @Param			userId path string true "Param Endpoint"
+// @Description		Api Endpoint To Get Shared Jobs.
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
@@ -126,10 +126,10 @@ func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// CreateTags		godoc
-// @Summary			Create job
-// @Description		Save job data in Db.
-// @Param			input body request.CreateJobInput true "Create job"
+// CreateJob		godoc
+// @Summary			Create New Job
+// @Description		Api Endpoint To Create New Job.
+// @Param			input body request.CreateJobInput true "Data Input"
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
@@ -161,11 +161,11 @@ func (controller *JobsController) CreateJob(ctx *gin.Context) {
 }
 
 
-// CreateTags		godoc
-// @Summary			Update job
-// @Description		Update job data in Db.
-// @Param			jobId path string true "Update Job By Job ID"
-// @Param			input body request.UpdateJobInput true "Update job"
+// UpdateJob		godoc
+// @Summary			Update Job
+// @Description		Api Endpoint To Update Job
+// @Param			jobId path int true "Param Enpoint"
+// @Param			input body request.UpdateJobInput true "Data Input"
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
@@ -187,9 +187,8 @@ func (controller *JobsController) UpdateJob(ctx *gin.Context) {
     jobId := ctx.Param("jobId")
 	id, err := strconv.Atoi(jobId)
 	helper.ErrorPanic(err)
-	updateJobRequest.Id = id
 
-	if err:= controller.jobService.Update(updateJobRequest); err != nil {
+	if err:= controller.jobService.Update(updateJobRequest, id); err != nil {
 		errorResponse := response.ErrorResponse{
 			Status: "Not Found",
 			Errors: err.Error(),
@@ -209,10 +208,10 @@ func (controller *JobsController) UpdateJob(ctx *gin.Context) {
 
 }
 
-// CreateTags		godoc
+// DeleteJob		godoc
 // @Summary			Delete job
-// @Description		Delete job data in Db.
-// @Param			jobId path string true "Delete Job By Job ID"
+// @Description		Api Endpoint for Delete job.
+// @Param			jobId path int true "param endpoint"
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
