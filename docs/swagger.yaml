@@ -176,25 +176,6 @@ paths:
       summary: Update Job
       tags:
       - Jobs
-  /job/{userId}:
-    get:
-      description: Api Endpoint To Get Shared Jobs.
-      parameters:
-      - description: Param Endpoint
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.WebResponse'
-      summary: Get Shared jobs by userId.
-      tags:
-      - Jobs
   /job/applier/{userId}:
     get:
       description: Api endpoint to get applied job by userId.
@@ -254,4 +235,23 @@ paths:
       summary: Cancel Apply job
       tags:
       - Applicants
+  /job/created/{userId}:
+    get:
+      description: Api Endpoint To Get Shared Jobs.
+      parameters:
+      - description: Param Endpoint
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      summary: Get Shared jobs by userId.
+      tags:
+      - Jobs
 swagger: "2.0"

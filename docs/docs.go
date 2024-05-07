@@ -154,6 +154,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/job/created/{userId}": {
+            "get": {
+                "description": "Api Endpoint To Get Shared Jobs.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get Shared jobs by userId.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Param Endpoint",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.WebResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/job/{jobId}": {
             "get": {
                 "description": "Api Enpoint to Get Single Job By Id",
@@ -234,35 +263,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/request.UpdateJobInput"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.WebResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/job/{userId}": {
-            "get": {
-                "description": "Api Endpoint To Get Shared Jobs.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Jobs"
-                ],
-                "summary": "Get Shared jobs by userId.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Param Endpoint",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {

@@ -46,9 +46,7 @@ func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 func (r *JobsRepository) FindByUserId(userId string) []models.Job {
 	var jobs []models.Job
 
-	 r.Db.Where("user_id = ?", userId).First(&jobs)
-	
-	
+	 r.Db.Where("user_id = ?", userId).Find(&jobs)
 	
 	return jobs
 }
@@ -56,7 +54,7 @@ func (r *JobsRepository) FindByUserId(userId string) []models.Job {
 func (r *JobsRepository) FindByCategory(category string) []models.Job {
 	var jobs []models.Job
 
-	 r.Db.Where("category = ?", category).Find(&jobs)
+	 r.Db.Where("category = ?", category).First(&jobs)
 
 
     return jobs

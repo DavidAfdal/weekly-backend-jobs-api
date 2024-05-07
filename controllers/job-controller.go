@@ -106,7 +106,7 @@ func (controller *JobsController) GetJobByCategory(ctx *gin.Context) {
 // @Produce			application/json
 // @Tags			Jobs
 // @Success			200 {object} response.WebResponse{}
-// @Router			/job/{userId} [get]
+// @Router			/job/created/{userId} [get]
 func (controller *JobsController) GetJobByUserId(ctx *gin.Context) {
 
 	UserId :=  ctx.Param("userId")
