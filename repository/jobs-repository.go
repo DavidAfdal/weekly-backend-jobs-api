@@ -25,7 +25,7 @@ func (r *JobsRepository) Save(job models.Job) {
 func (r *JobsRepository) FindAll() []models.Job {
 	var jobs []models.Job
 
-	result := r.Db.Find(&jobs)
+	result := r.Db.Order("created_at desc").Find(&jobs)
 	helper.ErrorPanic(result.Error)
 	
 	return jobs
@@ -46,7 +46,7 @@ func (r *JobsRepository) FindById(jobId int) (models.Job, error) {
 func (r *JobsRepository) FindByUserId(userId string) []models.Job {
 	var jobs []models.Job
 
-	 r.Db.Where("user_id = ?", userId).Find(&jobs)
+	 r.Db.Where("user_id = ?", userId).Order("created_at desc").Find(&jobs)
 	
 	return jobs
 }

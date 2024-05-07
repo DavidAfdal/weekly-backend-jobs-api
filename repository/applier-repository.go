@@ -26,7 +26,7 @@ func (r *ApllierRepo) Save(applier models.Apllier){
 
 func (r *ApllierRepo) FindByUserId(userId string) (models.Apllier, error) {
 	var applier models.Apllier
-	result := r.DB.Where("user_id = ?", userId).Preload("Jobs").First(&applier)
+	result := r.DB.Where("user_id = ?", userId).Order("created_at desc").Preload("Jobs").First(&applier)
 	log.Print(applier.Jobs)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
