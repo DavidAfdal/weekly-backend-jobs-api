@@ -395,7 +395,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "103.157.26.181:7426",
 	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "Gin Go Jobs Service",
+	Title:            "Workfinder Rest Api",
 	Description:      "A Jobs management service API in Go using Gin framework.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

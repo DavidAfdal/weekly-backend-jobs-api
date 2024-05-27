@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @title           Gin Go Jobs Service
+// @title          Workfinder Rest Api
 // @version         1.0
 // @description     A Jobs management service API in Go using Gin framework.
 // @contact.name   David Afdal

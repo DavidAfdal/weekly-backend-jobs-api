@@ -82,7 +82,7 @@ info:
   contact:
     name: David Afdal
   description: A Jobs management service API in Go using Gin framework.
-  title: Gin Go Jobs Service
+  title: Workfinder Rest Api
   version: "1.0"
 paths:
   /job:
